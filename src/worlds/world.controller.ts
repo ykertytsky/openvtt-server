@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards, Body, Get, Query } from "@nestjs/common";
+import { Controller, Post, UseGuards, Body, Get, Query, Param, Delete } from "@nestjs/common";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 import { WorldService } from "./world.service";
 import { CurrentUser } from "../auth/decorators/current-user.decorator";
@@ -20,5 +20,10 @@ export class WorldController {
     @Get('get-worlds')
     async getWorlds(@Query() query: GetWorldsDto, @CurrentUser() user: User) {
         return this.worldService.getWorlds(user.id, query);
+    }
+
+    @Delete(':id')
+    async deleteWorld(@Param('id') id: string, @CurrentUser() user: User) {
+        return this.worldService.deleteWorld(id, user.id);
     }
 }

@@ -3,7 +3,7 @@ import { CreateWorldDto } from "./dto/createWorld.dto";
 import { GetWorldsDto } from "./dto/getWords.dto";
 
 // DB Stuff 
-import { db, worlds, NewWorld, World } from "../db";
+import { db, worlds, NewWorld, World, assets } from "../db";
 import { eq, and, like, desc, asc, sql } from "drizzle-orm";
 
 @Injectable()
@@ -81,6 +81,19 @@ export class WorldService {
         } catch (error) {
             this.logger.error(`Error getting worlds for user: ${userId}`, error);
             throw new InternalServerErrorException('Error getting worlds');
+        }
+    }
+
+    async deleteWorld(id: string, userId: string): Promise<{ message: string }> {
+        this.logger.log(`Deleting world: ${id} for user: ${userId}`);
+
+        try {
+            await db.delete(worlds).where(and(eq(worlds.id, id), eq(worlds.ownerId, userId)));
+            await db.delete(assets).where(eq(assets.worldId, id));
+            return { message: 'World deleted successfully' };
+        } catch (error) {
+            this.logger.error(`Error deleting world: ${id} for user: ${userId}`, error);
+            throw new InternalServerErrorException('Error deleting world');
         }
     }
 }
