@@ -28,11 +28,11 @@ export class AssetsService {
     objectKey: string,
     mimeType: string,
     size: number,
-    worldId?: string,
+    worldId: string,
   ): Promise<Asset> {
     try {
       const newAsset: NewAsset = {
-        worldId: worldId || null,
+        worldId,
         provider,
         objectKey,
         mimeType,

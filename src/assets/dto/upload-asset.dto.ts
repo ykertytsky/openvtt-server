@@ -1,4 +1,4 @@
-import { IsString, IsOptional, MaxLength } from 'class-validator';
+import { IsString, IsOptional, MaxLength, IsUUID, IsNotEmpty } from 'class-validator';
 
 export class UploadAssetDto {
   @IsString()
@@ -10,5 +10,9 @@ export class UploadAssetDto {
   @IsOptional()
   @MaxLength(255)
   filename?: string;
+
+  @IsUUID()
+  @IsNotEmpty()
+  worldId: string;
 }
 

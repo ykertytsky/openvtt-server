@@ -34,7 +34,6 @@ export class AssetsController {
     @Body() uploadDto: UploadAssetDto,
   ) {
     this.logger.log(`[UPLOAD] Received upload request`);
-    this.logger.log(`[UPLOAD] DTO: ${JSON.stringify(uploadDto)}`);
     this.logger.log(`[UPLOAD] File present: ${!!file}`);
 
     if (!file) {
@@ -58,10 +57,13 @@ export class AssetsController {
       throw new BadRequestException('Only image files are allowed');
     }
 
-    // Generate object key
+    // Generate object key - include worldId in folder path
+    const folderPath = uploadDto.folder 
+      ? `${uploadDto.folder}/${uploadDto.worldId}`
+      : `worlds/${uploadDto.worldId}`;
     const objectKey = this.assetsService.generateObjectKey(
       file.originalname,
-      uploadDto.folder,
+      folderPath,
       uploadDto.filename,
     );
     this.logger.log(`[UPLOAD] Generated object key: ${objectKey}`);
@@ -83,6 +85,7 @@ export class AssetsController {
       objectKey,
       file.mimetype,
       file.size,
+      uploadDto.worldId,
     );
     this.logger.log(`[UPLOAD] Asset created with ID: ${asset.id}`);
 
