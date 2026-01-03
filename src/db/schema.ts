@@ -25,7 +25,7 @@ export const assetProviderEnum = pgEnum('asset_provider', ['local', 's3']);
 
 export const assets = pgTable('assets', {
   id: uuid('id').primaryKey().defaultRandom(),
-  worldId: uuid('world_id').references(() => worlds.id).notNull(),
+  worldId: uuid('world_id').references(() => worlds.id),
   provider: assetProviderEnum('provider').notNull(),
   objectKey: varchar('object_key', { length: 255 }).notNull(),
   mimeType: varchar('mime_type', { length: 255 }).notNull(),

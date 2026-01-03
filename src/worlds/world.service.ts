@@ -11,7 +11,7 @@ export class WorldService {
     private readonly logger = new Logger(WorldService.name);
 
     async createWorld(createWorldDto: CreateWorldDto, userId: string): Promise<{ world: World, message: string }> {
-        const { name, description, systemId = 0, settings = {}, coverImageUrl = null } = createWorldDto;
+        const { name, description, systemId = 0, settings = {}, coverImageId = null } = createWorldDto;
 
         this.logger.log(`Creating world: ${name} for user: ${userId}`);
 
@@ -20,7 +20,7 @@ export class WorldService {
             description,
             systemId: 0,
             settings,
-            coverImageUrl,
+            coverImageId,
             ownerId: userId,
             createdAt: new Date(),
         };

@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, IsNumber, IsObject, IsUrl } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsNumber, IsObject, IsUUID } from 'class-validator';
 
 export class CreateWorldDto {
   @IsString()
@@ -18,7 +18,7 @@ export class CreateWorldDto {
   settings?: Record<string, unknown>;
 
   @IsString()
-  @IsUrl()
+  @IsUUID()
   @IsOptional()
-  coverImageUrl?: string;
+  coverImageId?: string;
 }
